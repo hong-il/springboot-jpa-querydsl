@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -41,5 +42,24 @@ public class HeroRepositoryTest {
         //then
         assertThat(output.size(), is(1));
         assertThat(output.get(0).getName(), is("hong-il"));
+    }
+
+    @Test
+    @Transactional
+    public void HeroDeleteByNameRequestTest() {
+        //given
+        Hero input = Hero.builder()
+                .name("hong-il")
+                .age(27)
+                .note("github.com/hong-il")
+                .build();
+
+        heroRepository.save(input);
+
+        //when
+        heroRepositorySupport.deleteByName("hong-il");
+
+        //then
+        assertThat(heroRepository.findAll().size(), is(0));
     }
 }

@@ -29,4 +29,11 @@ public class HeroRepositorySupport extends QuerydslRepositorySupport {
                 .where(hero.name.eq(name))
                 .fetch();
     }
+
+    public void deleteByName(String name) {
+        jpaQueryFactory
+        .delete(hero)
+        .where(hero.name.eq(name))
+        .execute();
+    }
 }
