@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static boot.jpa.querydsl.domain.QHero.hero;
@@ -30,10 +31,19 @@ public class HeroRepositorySupport extends QuerydslRepositorySupport {
                 .fetch();
     }
 
+    @Transactional
     public void deleteByName(String name) {
         jpaQueryFactory
         .delete(hero)
         .where(hero.name.eq(name))
+        .execute();
+    }
+
+    @Transactional
+    public void updateByName(String note) {
+        jpaQueryFactory
+        .update(hero)
+        .set(hero.name, note)
         .execute();
     }
 }

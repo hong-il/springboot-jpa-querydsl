@@ -45,7 +45,6 @@ public class HeroRepositoryTest {
     }
 
     @Test
-    @Transactional
     public void HeroDeleteByNameRequestTest() {
         //given
         Hero input = Hero.builder()
@@ -61,5 +60,23 @@ public class HeroRepositoryTest {
 
         //then
         assertThat(heroRepository.findAll().size(), is(0));
+    }
+
+    @Test
+    public void HeroUpdateByNameRequestTest() {
+        //given
+        Hero input = Hero.builder()
+                .name("hong-il")
+                .age(27)
+                .note("github.com/hong-il")
+                .build();
+
+        heroRepository.save(input);
+
+        //when
+        heroRepositorySupport.updateByName("github.com/hong-il");
+
+        //then
+        assertThat(heroRepository.findAll().get(0).getName(), is("github.com/hong-il"));
     }
 }
