@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -78,5 +78,22 @@ public class HeroRepositoryTest {
 
         //then
         assertThat(heroRepository.findAll().get(0).getName(), is("github.com/hong-il"));
+    }
+
+    @Test
+    public void HeroFindAllOrderBy() {
+        //given
+        IntStream.rangeClosed(1, 10).forEach(i ->
+                heroRepository.save(Hero.builder()
+                        .name("hong-il" + i)
+                        .age(i)
+                        .note("github.com/hong-il" + i)
+                        .build()));
+
+        //when
+        List<Hero> output = heroRepositorySupport.findAllOrderBy();
+
+        //then
+        assertThat(output.get(0).getId(), is(10L));
     }
 }

@@ -46,4 +46,12 @@ public class HeroRepositorySupport extends QuerydslRepositorySupport {
         .set(hero.name, note)
         .execute();
     }
+
+    public List<Hero> findAllOrderBy() {
+        return jpaQueryFactory
+                .selectFrom(hero)
+                .orderBy(hero.id.desc())
+                .fetch();
+    }
+
 }
