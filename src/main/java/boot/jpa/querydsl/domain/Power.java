@@ -6,28 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Hero {
+public class Power {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private int age;
-    private String note;
+    private String power;
 
-    @OneToMany(mappedBy = "hero", fetch = FetchType.LAZY)
-    private List<Power> powers;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_POWER_HERO"))
+    private Hero hero;
 
     @Builder
-    public Hero(String name, int age, String note) {
-        this.name = name;
-        this.age = age;
-        this.note = note;
+    public Power(String power, Hero hero) {
+        this.power = power;
+        this.hero = hero;
     }
 }
