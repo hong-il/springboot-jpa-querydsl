@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -26,6 +27,8 @@ public class QHero extends EntityPathBase<Hero> {
     public final StringPath name = createString("name");
 
     public final StringPath note = createString("note");
+
+    public final ListPath<Power, QPower> powers = this.<Power, QPower>createList("powers", Power.class, QPower.class, PathInits.DIRECT2);
 
     public QHero(String variable) {
         super(Hero.class, forVariable(variable));
